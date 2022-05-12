@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {Footer, Header} from './Components/';
+import {Home, List, Cart} from "./pages";
+import {Route} from 'react-router-dom';
+import {IntlProvider} from 'react-intl'
+import { LOCALES } from './i18n/locales'
+import { messages } from './i18n/messages'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    function getInitialLocale() {
+        const savedLocale = localStorage.getItem('locale')
+        return savedLocale || LOCALES.ENGLISH
+    }
+    const [currentLocale, setCurrentLocale] = React.useState(getInitialLocale());
+    const handleChange = ({ target: { alt } }) => {
+        setCurrentLocale(alt);
+        localStorage.setItem('locale', alt)
+    }
+
+    return (
+        <IntlProvider messages={messages[getInitialLocale()]} locale={getInitialLocale()} defaultLocale='LOCALES.ENGLISH'>
+            <Header currentLocale={currentLocale} handleChange={handleChange}/>
+            <div className="back">
+                <Route exact path='/' component={Home}/>
+                <Footer/>
+            </div>
+        </IntlProvider>
+
+    );
 }
 
 export default App;
