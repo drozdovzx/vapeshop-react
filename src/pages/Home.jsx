@@ -1,11 +1,13 @@
 import React from 'react';
-import {Cart, Header} from '../Components/';
+import {Cart, Filters} from '../Components/';
 
 function Home() {
 
     return(
         <div>
             <Cart/>
+            <Filters/>
+
         </div>
     );
 }
